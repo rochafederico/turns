@@ -1,0 +1,17 @@
+{
+  "name": "turns",
+  "version": "1.0.0",
+  "description": "Turns",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "autor": "Federico Rocha <federiconrocha@gmail.com>",
+  "license": "ISC",
+  "dependencies": {
+    "mime": "^3.0.0"
+  },
+  "type": "module"
+}
