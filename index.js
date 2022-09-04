@@ -1,10 +1,15 @@
 import fs from 'fs';
 import http from 'node:http';
 import mime from 'mime';
+import api from './api/index.js';
 
 const host = 'localhost';
 const port = 8000;
 const requestListener = function (req, res) {
+    if(req.url.substring(0,4) == '/api'){
+        api(res, req);
+        return;
+    }
     let url = process.cwd() + req.url;
     if (url === `${process.cwd()}/`) {
         url += 'index.html';
