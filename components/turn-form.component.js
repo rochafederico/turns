@@ -9,20 +9,49 @@ class turnFormComponent extends HTMLElement {
         const template = document.createElement('template');
         template.innerHTML = `<form>
             <header>Agendar turno</header>
+            <input-with-label name='fecha' type='date' min='${this.ahora[0]}'  required=true>
+                Fecha
+            </input-with-label>
+            <input-with-label name='hora' type='time' required=true>
+                Hora
+            </input-with-label>
             <div>
                 <button type='submit'>Agendar</button>
+                <button type='button' id='cerrar'>Cerrar</button>
             </div>
         </form>
         ${this.getCss()}`;
         return template;
     }
 
+    cerrar() {
+        this.remove();
+        window.location.hash = '';
+    }
+
+    get ahora() {
+        return (new Date()).toISOString().split('T')
+    }
+
+    cambioFecha(fecha) {
+        console.debug('fecha === this.ahora[0]', fecha === this.ahora[0], fecha, this.ahora[0])
+        if (fecha === this.ahora[0]) {
+            this.shadowRoot.querySelector('form input-with-label[name="hora"]')
+                .setAttribute('min', this.ahora[1].substring(0, 5));
+        }
+    }
+
     connectedCallback() {
         this.shadowRoot.appendChild(this.getTemplet().content.cloneNode(true));
-        this.shadowRoot.querySelector('form').onsubmit = (e) => {
-            e.preventDefault();
+        this.shadowRoot.querySelector('form').onsubmit = () => {
             window.location.hash = '';
         }
+        this.shadowRoot.querySelector('form button#cerrar').onclick = () => this.cerrar();
+        this.shadowRoot.querySelector('form input-with-label[name="fecha"]')
+            .querySelector('input')
+            .onchange = e => {
+                this.cambioFecha(e.target.value)
+            };
     }
 
     getCss = () => `<style>
