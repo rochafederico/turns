@@ -14,9 +14,40 @@
 </head>
 
 <body>
+    <script type="module">
+        import './components/field/field.component.js';
+        import './turn-form.component.js';
+    </script>
+    <script>
+        function openTurn() {
+            window.location.hash = 'turn';
+            if (!document.body.querySelector('turn-form')) {
+                document.body.appendChild(document.createElement('turn-form'));
+            }
+        }
+        function closeTurn() {
+            window.location.hash = '';
+            if (document.body.querySelector('turn-form')) {
+                document.body.querySelector('turn-form').remove();
+            }
+        }
+        if (window.location.hash.includes('turn')) {
+            openTurn();
+        }
+        window.onpopstate = function (event) {
+            if (window.location.hash.includes('turn')) {
+                openTurn();
+            } else {
+                closeTurn();
+            }
+        };
+    </script>
     <h1>
         turns
     </h1>
+    <button onclick="openTurn()">
+        Nuevo turno
+    </button>
 </body>
 
 </html>
